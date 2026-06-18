@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket Test</title>
+</head>
+<body>
+
+    <input id="userId" placeholder="Your User ID">
+    <button onclick="registerUser()">Connect</button>
+
+    <br><br>
+
+    <input id="receiverId" placeholder="Receiver ID">
+    <input id="message" placeholder="Message">
+
+    <button onclick="sendMessage()">Send</button>
+
+    <div id="messages"></div>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+    <script>
+        const socket = io("http://localhost:5000");
+
+        socket.on("connect", () => {
+            console.log("Connected:", socket.id);
+        });
+
+        function registerUser() {
+            const userId =
+                document.getElementById("userId").value;
+
+            socket.emit(
+                "register-user",
+                userId
+            );
+        }
+
+        function sendMessage() {
+
+            const senderId =
+                document.getElementById("userId").value;
+
+            const receiverId =
+                document.getElementById("receiverId").value;
+
+            const message =
+                document.getElementById("message").value;
+
+            socket.emit("send-message", {
+                senderId,
+                receiverId,
+                message
+            });
+        }
+
+        socket.on(
+            "receive-message",
+            (data) => {
+                console.log(data);
+                const div =
+                    document.createElement("div");
+
+                div.innerText =
+                    `${data.senderId}: ${data.message}`;
+
+                document
+                    .getElementById("messages")
+                    .appendChild(div);
+            }
+        );
+    </script>
+</body>
+</html>
