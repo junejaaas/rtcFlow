@@ -315,6 +315,19 @@ export const SocketProvider = ({ children }) => {
   }, 100);
 
 };
+    pc.oniceconnectionstatechange = () => {
+      console.log(
+        "ICE CONNECTION STATE:",
+        pc.iceConnectionState
+      );
+    };
+
+    pc.onicegatheringstatechange = () => {
+      console.log(
+        "ICE GATHERING STATE:",
+        pc.iceGatheringState
+      );
+    };
 
       // Monitor connection health and clean up on unexpected disconnect
       pc.onconnectionstatechange = () => {
