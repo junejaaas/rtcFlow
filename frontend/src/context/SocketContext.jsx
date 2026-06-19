@@ -282,39 +282,16 @@ export const SocketProvider = ({ children }) => {
       };
 
       // Attach remote media stream when tracks arrive from the peer
-      pc.ontrack = (event) => {
+    pc.ontrack = (event) => {
 
-  console.log(
-    "REMOTE TRACK RECEIVED",
-    event.streams[0]
-  );
+      console.log(
+        "REMOTE TRACK RECEIVED",
+        event.streams[0]
+      );
 
-  const remoteMediaStream =
-    event.streams[0];
+      setRemoteStream(event.streams[0]);
 
-  setRemoteStream(remoteMediaStream);
-
-  setTimeout(() => {
-
-    if (remoteVideoRef.current) {
-
-      remoteVideoRef.current.srcObject =
-        remoteMediaStream;
-
-      remoteVideoRef.current
-        .play()
-        .then(() => {
-          console.log(
-            "REMOTE VIDEO PLAYING"
-          );
-        })
-        .catch(console.error);
-
-    }
-
-  }, 100);
-
-};
+  };
     pc.oniceconnectionstatechange = () => {
       console.log(
         "ICE CONNECTION STATE:",
@@ -331,13 +308,15 @@ export const SocketProvider = ({ children }) => {
 
       // Monitor connection health and clean up on unexpected disconnect
       pc.onconnectionstatechange = () => {
-        console.log("WebRTC: Connection state:", pc.connectionState);
-        if (
-          pc.connectionState === "disconnected" ||
-          pc.connectionState === "failed" ||
-          pc.connectionState === "closed"
-        ) {
-          endCallLocal();
+        console.log(
+          "CONNECTION STATE:",
+          pc.connectionState
+        );
+
+        if (pc.connectionState === "failed") {
+          console.warn(
+            "Connection failed - not cleaning up yet"
+          );
         }
       };
 

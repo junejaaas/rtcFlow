@@ -51,12 +51,6 @@ const VideoCall = () => {
 
 }, [remoteStream]);
 
-  // Sync remote stream to the video element whenever it arrives
-  useEffect(() => {
-    if (remoteVideoRef.current && remoteStream) {
-      remoteVideoRef.current.srcObject = remoteStream;
-    }
-  }, [remoteStream, remoteVideoRef]);
 
   return (
     <div className="video-container">
