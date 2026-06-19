@@ -64,7 +64,7 @@ export const SocketProvider = ({ children }) => {
   // 2. Instantiate Socket.IO client (without auto-connecting)
   // ============================================================
   useEffect(() => {
-    const socketInstance = io("http://localhost:5000", {
+    const socketInstance = io("https://vmeet-l3ff.onrender.com", {
       autoConnect: false,
     });
     setSocket(socketInstance);
