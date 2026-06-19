@@ -7,7 +7,8 @@ import app from './app.js';
 import socketHandler from './socket/socketHandler.js';
 
 dotenv.config();
-
+console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
+console.log("NODE_ENV:", process.env.NODE_ENV);
 await connectDB();
 
 const server = http.createServer(app);
